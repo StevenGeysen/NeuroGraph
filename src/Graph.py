@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""     NeuroGraph: Graph class -- Version 1
-Last edit:  2024/01/21
+"""     NeuroGraph: Graph class -- Version 1.1
+Last edit:  2024/01/28
 Author:     Geysen, Steven (SG)
 Notes:      - Graph class to build NeuroGraph. Based on article of Bernd Klein.
             - Release notes:
@@ -31,40 +31,46 @@ SPINE = Path.cwd()
 
 
 class Graph(object):
+    """Graph class."""
 
     def __init__(self, graph_dict=None):
-        """ initializes a graph object 
-            If no dictionary or None is given, 
-            an empty dictionary will be used
+        """
+        Initialise a graph object.
+        
+        If no dictionary or None is given, an empty dictionary will be used.
         """
         if graph_dict == None:
             graph_dict = {}
         self._graph_dict = graph_dict
 
     def edges(self, vertice):
-        """ returns a list of all the edges of a vertice"""
+        """Return a list of all the edges of a vertice."""
         return self._graph_dict[vertice]
         
     def all_vertices(self):
-        """ returns the vertices of a graph as a set """
+        """Return the vertices of a graph as a set."""
         return set(self._graph_dict.keys())
 
     def all_edges(self):
-        """ returns the edges of a graph """
+        """Return the edges of a graph."""
         return self.__generate_edges()
 
     def add_vertex(self, vertex):
-        """ If the vertex "vertex" is not in 
-            self._graph_dict, a key "vertex" with an empty
-            list as a value is added to the dictionary. 
-            Otherwise nothing has to be done. 
+        """Add vertex to graph.
+        
+        If the vertex "vertex" is not in self._graph_dict, a key "vertex" with
+        an empty list as a value is added to the dictionary. Otherwise nothing
+        has to be done.
         """
         if vertex not in self._graph_dict:
             self._graph_dict[vertex] = []
 
     def add_edge(self, edge):
-        """ assumes that edge is of type set, tuple or list; 
-            between two vertices can be multiple edges! 
+        """
+        Add edge to graph.
+        
+        Assumes that edge is of type set, tuple or list; between two vertices
+        can be multiple edges!
         """
         edge = set(edge)
         vertex1, vertex2 = tuple(edge)
@@ -74,11 +80,27 @@ class Graph(object):
             else:
                 self._graph_dict[x] = [y]
 
+    def pathway(self):
+        """
+        Return information of pahtway.
+        
+        Information of neurological pathway used to filter on different
+        neurotransmitters and hormones.
+
+        Returns
+        -------
+        TYPE
+            DESCRIPTION.
+
+        """
+        return self._graph_dict
+
     def __generate_edges(self):
-        """ A static method generating the edges of the 
-            graph "graph". Edges are represented as sets 
-            with one (a loop back to the vertex) or two 
-            vertices 
+        """
+        Generate the edges of the graph "graph".
+        
+        Edges are represented as sets with one (a loop back to the vertex) or
+        two vertices.
         """
         edges = []
         for vertex in self._graph_dict:
@@ -92,7 +114,7 @@ class Graph(object):
         return self._iter_obj
     
     def __next__(self):
-        """ allows us to iterate over the vertices """
+        """Allows to iterate over the vertices."""
         return next(self._iter_obj)
 
     def __str__(self):
